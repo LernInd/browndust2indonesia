@@ -1,8 +1,5 @@
-import { useState, ChangeEvent, FormEvent } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import cloudflareLogo from "./assets/Cloudflare_Logo.svg";
-import honoLogo from "./assets/hono.svg";
+// src/react-app/App.tsx
+import { useState, ChangeEvent, FormEvent, useRef } from "react";
 import "./App.css";
 
 function App() {
@@ -10,19 +7,25 @@ function App() {
   const [uploading, setUploading] = useState(false);
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
+    if (event.target.files && event.target.files.length > 0) {
       setSelectedFile(event.target.files[0]);
       setUploadedImageUrl(null);
       setError(null);
     }
   };
 
+  const handleLabelClick = () => {
+    fileInputRef.current?.click();
+  };
+
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     if (!selectedFile) {
-      setError("Silakan pilih file terlebih dahulu.");
+      setError("Silakan pilih file untuk diunggah.");
       return;
     }
 
@@ -54,55 +57,65 @@ function App() {
   };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-        <a href="https://hono.dev/" target="_blank">
-          <img src={honoLogo} className="logo" alt="Hono logo" />
-        </a>
-        <a href="https://workers.cloudflare.com/" target="_blank">
-          <img
-            src={cloudflareLogo}
-            className="logo cloudflare"
-            alt="Cloudflare logo"
-          />
-        </a>
-      </div>
-      <h1>Cloudflare Workers + Cloudinary</h1>
-      <div className="card">
-        <h2>Unggah Gambar ke Cloudinary</h2>
-        <form onSubmit={handleSubmit}>
-          <input type="file" onChange={handleFileChange} accept="image/*" />
-          <button type="submit" disabled={!selectedFile || uploading}>
-            {uploading ? "Mengunggah..." : "Unggah"}
-          </button>
-        </form>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        {uploadedImageUrl && (
-          <div style={{ marginTop: "20px" }}>
-            <h3>Gambar Berhasil Diunggah:</h3>
-            <img
-              src={uploadedImageUrl}
-              alt="Uploaded content"
-              style={{ maxWidth: "100%", height: "auto", borderRadius: "8px" }}
-            />
-            <p>
-              <a href={uploadedImageUrl} target="_blank" rel="noopener noreferrer">
-                Lihat gambar
-              </a>
-            </p>
+    <div className="app">
+      <header className="navbar">
+        <div className="nav-title">Brown Dust II</div>
+        <nav>
+          <div 
+            className={`menu-icon ${isMenuOpen ? 'open' : ''}`} 
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <div className="bar"></div>
+            <div className="bar"></div>
+            <div className="bar"></div>
           </div>
-        )}
-      </div>
-      <p className="read-the-docs">
-        Proyek ini sekarang terhubung dengan Cloudinary melalui Cloudflare Workers.
-      </p>
-    </>
+          <ul className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
+            <li><a href="#">About Game</a></li>
+            <li><a href="#">News</a></li>
+            <li><a href="#">Media</a></li>
+            <li><a href="#">Guide</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <main className="main-content">
+        <div className="content-card">
+          <h2>Galeri Komunitas</h2>
+          <p>Bagikan momen petualangan terbaik Anda. Unggah screenshot atau fan art untuk dilihat oleh petualang lainnya.</p>
+          
+          <form onSubmit={handleSubmit} className="upload-form">
+            <input
+              type="file"
+              onChange={handleFileChange}
+              accept="image/*"
+              ref={fileInputRef}
+              style={{ display: 'none' }}
+            />
+            <div className="file-input" onClick={handleLabelClick}>
+              {selectedFile ? selectedFile.name : "Klik untuk memilih gambar..."}
+            </div>
+
+            <button type="submit" className="submit-button" disabled={!selectedFile || uploading}>
+              {uploading ? "Mengunggah..." : "Unggah"}
+            </button>
+          </form>
+
+          {error && <p className="error-message">{error}</p>}
+          
+          {uploadedImageUrl && (
+            <div className="upload-result">
+              <h3>Berhasil Diunggah!</h3>
+              <img src={uploadedImageUrl} alt="Uploaded content" />
+              <p>
+                <a href={uploadedImageUrl} target="_blank" rel="noopener noreferrer">
+                  Lihat gambar
+                </a>
+              </p>
+            </div>
+          )}
+        </div>
+      </main>
+    </div>
   );
 }
 

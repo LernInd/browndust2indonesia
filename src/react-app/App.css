@@ -1,45 +1,181 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
+/* src/react-app/App.css */
+
+.app {
+  width: 100%;
+}
+
+/* Navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: rgba(10, 10, 20, 0.7); /* Latar semi-transparan */
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 1000;
+  transition: background-color 0.3s ease;
+}
+
+.nav-title {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+
+.nav-links a:hover {
+  color: #fff;
+  text-shadow: 0 0 5px #fff;
+}
+
+/* Hamburger Menu for Mobile */
+.menu-icon {
+  display: none;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.menu-icon .bar {
+  width: 25px;
+  height: 3px;
+  background-color: #fff;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Main Content */
+.main-content {
+  padding-top: 100px; /* Memberi ruang di bawah navbar sticky */
+  display: flex;
+  justify-content: center;
+}
+
+.content-card {
+  background-color: rgba(20, 20, 35, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
   padding: 2rem;
+  width: 100%;
+  max-width: 600px;
   text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-.logo.cloudflare:hover {
-  filter: drop-shadow(0 0 2em #f6821faa);
+.content-card h2 {
+  margin-top: 0;
+  font-size: 2em;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.content-card p {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.upload-form {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.file-input {
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+  padding: 1.5rem;
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.file-input:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.submit-button {
+  background-color: #8a2be2; /* Warna ungu fantasi */
+  color: white;
+  border: none;
+  padding: 0.8em 1.5em;
+  font-size: 1em;
+  font-weight: bold;
+  border-radius: 8px;
+}
+
+.submit-button:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+}
+
+.submit-button:hover:not(:disabled) {
+  background-color: #9932cc;
+}
+
+.upload-result img {
+  max-width: 100%;
+  margin-top: 1rem;
+  border-radius: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.error-message {
+  color: #ff8c8c;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    background-color: rgba(10, 10, 20, 0.9);
+    position: absolute;
+    top: 70px;
+    left: 0;
+    padding: 1rem 0;
+    text-align: center;
   }
-  to {
-    transform: rotate(360deg);
+
+  .nav-links.active {
+    display: flex;
   }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+  
+  .nav-links li {
+    padding: 1rem 0;
   }
-}
 
-.card {
-  padding: 2em;
-}
+  .menu-icon {
+    display: flex;
+  }
 
-.read-the-docs {
-  color: #888;
+  /* Animasi Hamburger ke 'X' */
+  .menu-icon.open .bar:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+  .menu-icon.open .bar:nth-child(2) {
+    opacity: 0;
+  }
+  .menu-icon.open .bar:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+  }
 }
