@@ -83,6 +83,10 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
+.content-card p {
+  text-align: justify;
+}
+
 .content-card h2 {
   margin-top: 0;
   font-size: 2em;
@@ -164,6 +168,10 @@
     padding: 1rem 0;
   }
 
+  .nav-title {
+    display: none;
+  }
+  
   .menu-icon {
     display: flex;
   }

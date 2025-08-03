@@ -59,7 +59,7 @@ function App() {
   return (
     <div className="app">
       <header className="navbar">
-        <div className="nav-title">Brown Dust II</div>
+        <div className="nav-title">Komunitas Brown Dust II Indonesia</div>
         <nav>
           <div 
             className={`menu-icon ${isMenuOpen ? 'open' : ''}`} 
@@ -70,49 +70,24 @@ function App() {
             <div className="bar"></div>
           </div>
           <ul className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
-            <li><a href="#">About Game</a></li>
-            <li><a href="#">News</a></li>
-            <li><a href="#">Media</a></li>
-            <li><a href="#">Guide</a></li>
+            <li><a href="/">Beranda</a></li>
+            <li><a href="#">Tips</a></li>
+            <li><a href="#">Karakter</a></li>
+            <li><a href="#">Spoiler</a></li>
+            <li><a href="#">Tentang Kami</a></li>
           </ul>
         </nav>
       </header>
 
       <main className="main-content">
         <div className="content-card">
-          <h2>Galeri Komunitas</h2>
-          <p>Bagikan momen petualangan terbaik Anda. Unggah screenshot atau fan art untuk dilihat oleh petualang lainnya.</p>
-          
-          <form onSubmit={handleSubmit} className="upload-form">
-            <input
-              type="file"
-              onChange={handleFileChange}
-              accept="image/*"
-              ref={fileInputRef}
-              style={{ display: 'none' }}
-            />
-            <div className="file-input" onClick={handleLabelClick}>
-              {selectedFile ? selectedFile.name : "Klik untuk memilih gambar..."}
-            </div>
-
-            <button type="submit" className="submit-button" disabled={!selectedFile || uploading}>
-              {uploading ? "Mengunggah..." : "Unggah"}
-            </button>
-          </form>
-
-          {error && <p className="error-message">{error}</p>}
-          
-          {uploadedImageUrl && (
-            <div className="upload-result">
-              <h3>Berhasil Diunggah!</h3>
-              <img src={uploadedImageUrl} alt="Uploaded content" />
-              <p>
-                <a href={uploadedImageUrl} target="_blank" rel="noopener noreferrer">
-                  Lihat gambar
-                </a>
-              </p>
-            </div>
-          )}
+          <h2>Komunitas Brown Dust II Indonesia</h2>
+          <p>
+            Tempat buat kalian paham seluk beluk permainan Brown Dust 2 menggunakan bahasa indonesia.
+            Berisi kumpulan tips bermain, pengenalan karakter, dan alur cerita yang di translasikan ke bahasa indonesia.
+            Mari bergabung dalam komunitas dan ikut berkontribusi untuk membangun komunitas game
+            yang sehat, saling membantu, dan selalu menghormati. 
+          </p>
         </div>
       </main>
     </div>

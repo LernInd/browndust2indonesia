@@ -18,7 +18,7 @@ body {
   margin: 0;
   min-height: 100vh;
   /* Ganti URL ini dengan gambar latar belakang fantasi resolusi tinggi Anda */
-  background-image: linear-gradient(rgba(15, 15, 25, 0.8), rgba(15, 15, 25, 0.95)), url('https://images.alphacoders.com/133/1333703.jpeg');
+  background-image: linear-gradient(rgba(15, 15, 25, 0.1), rgba(15, 15, 25, 0.95)), url('https://res.cloudinary.com/dsbohucpg/image/upload/Apostle_Blade_PC_3840x2160_p8eioy.jpg');
   background-size: cover;
   background-position: center;
   background-attachment: fixed; /* Membuat background tidak ikut scroll */
