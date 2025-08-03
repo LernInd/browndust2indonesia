@@ -13,6 +13,7 @@ Jangan lupa untuk meningkatkan level gear Anda menggunakan material yang didapat
   socialLinks: {
     facebook: "https://facebook.com/example",
     twitter: "https://twitter.com/example",
-    youtube : "https://youtube.com/example"
+    youtube : "https://youtube.com/example",
+    tiktok : "https://tiktok.com/example"
   }
 };
