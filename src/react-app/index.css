@@ -18,7 +18,9 @@ body {
   margin: 0;
   min-height: 100vh;
   /* Ganti URL ini dengan gambar latar belakang fantasi resolusi tinggi Anda */
-  background-image: linear-gradient(rgba(15, 15, 25, 0.1), rgba(15, 15, 25, 0.95)), url('https://res.cloudinary.com/dsbohucpg/image/upload/Apostle_Blade_PC_3840x2160_p8eioy.jpg');
+    background-image: linear-gradient(rgba(15, 15, 25, 0.1), rgba(15, 15, 25, 0.95)), 
+  url('https://res.cloudinary.com/dsbohucpg/image/upload/v1754241302/Fake_Game_PC_3840x2160_dwad34.jpg');
+
   background-size: cover;
   background-position: center;
   background-attachment: fixed; /* Membuat background tidak ikut scroll */
@@ -31,3 +33,4 @@ body {
   width: 100%;
   box-sizing: border-box;
 }
+

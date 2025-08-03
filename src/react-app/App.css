@@ -14,8 +14,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background-color: rgba(10, 10, 20, 0.7); /* Latar semi-transparan */
-  backdrop-filter: blur(10px);
+  background-color: rgba(10, 10, 20, 0.4); /* Latar semi-transparan */
+  backdrop-filter: blur(5px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   z-index: 1000;
   transition: background-color 0.3s ease;
@@ -68,86 +68,44 @@
 /* Main Content */
 .main-content {
   padding-top: 100px; /* Memberi ruang di bawah navbar sticky */
-  display: flex;
-  justify-content: center;
+  display: flex; /* Menjadikan ini flex container */
+  justify-content: center; /* Menengahkan secara horizontal */
+  align-items: center; /* Menengahkan secara vertikal */
+  min-height: calc(100vh - 100px); /* Memastikan tinggi minimal untuk penengahan vertikal */
+  box-sizing: border-box; /* Menjaga padding tetap dalam perhitungan ukuran */
 }
 
 .content-card {
-  background-color: rgba(20, 20, 35, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.5);
+  /* border: 1px solid rgba(255, 254, 254, 0.1); */
   border-radius: 12px;
+  backdrop-filter: blur(1px);
   padding: 2rem;
   width: 100%;
-  max-width: 600px;
+  max-width: 70%;
   text-align: center;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .content-card p {
   text-align: justify;
+  font-size: 20px;
 }
 
 .content-card h2 {
-  margin-top: 0;
-  font-size: 2em;
+  display: none;
 }
 
 .content-card p {
   color: rgba(255, 255, 255, 0.7);
 }
 
-.upload-form {
-  margin-top: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.file-input {
-  border: 2px dashed rgba(255, 255, 255, 0.3);
-  padding: 1.5rem;
-  border-radius: 8px;
-  color: rgba(255, 255, 255, 0.6);
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.file-input:hover {
-  background-color: rgba(255, 255, 255, 0.05);
-}
-
-.submit-button {
-  background-color: #8a2be2; /* Warna ungu fantasi */
-  color: white;
-  border: none;
-  padding: 0.8em 1.5em;
-  font-size: 1em;
-  font-weight: bold;
-  border-radius: 8px;
-}
-
-.submit-button:disabled {
-  background-color: #555;
-  cursor: not-allowed;
-}
-
-.submit-button:hover:not(:disabled) {
-  background-color: #9932cc;
-}
-
-.upload-result img {
-  max-width: 100%;
-  margin-top: 1rem;
-  border-radius: 8px;
-  border: 2px solid rgba(255, 255, 255, 0.2);
-}
-
-.error-message {
-  color: #ff8c8c;
-}
 
 /* Responsive Styles */
 @media (max-width: 768px) {
+  .navbar {
+    justify-content: flex-end;
+  }
+
   .nav-links {
     display: none;
     flex-direction: column;
@@ -174,6 +132,15 @@
   
   .menu-icon {
     display: flex;
+  }
+
+  .content-card p {
+    font-size: 14px;
+  }
+  .content-card h2 {
+  margin-top: 0;
+  font-size: 20px;
+  display: flex;
   }
 
   /* Animasi Hamburger ke 'X' */
