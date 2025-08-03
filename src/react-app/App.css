@@ -139,8 +139,11 @@ body {
 }
 
 .content-card h2 {
-  display: none;
+  margin-top: 0;
+  font-size: 2em;
+  color: #fff;
 }
+
 
 .content-card p {
   text-align: justify;
@@ -148,8 +151,44 @@ body {
   color: rgba(255, 255, 255, 0.9);
 }
 
-/* === TIPS PAGE STYLES === */
-.tips-container {
+/* === NEW STYLES for Detail Pages === */
+.author-name {
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.7) !important;
+  margin-bottom: 1.5rem;
+  font-size: 1rem !important;
+  text-align: left !important;
+}
+
+.content-image {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+  height: 0;
+  overflow: hidden;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+
+/* === TIPS PAGE STYLES (SHARED) === */
+.tips-container, .spoiler-container, .karakter-container {
   width: 100%;
 }
 
@@ -174,7 +213,7 @@ body {
   
 }
 
-.tips-content {
+.tips-content, .spoiler-content, .karakter-content {
   padding-top: 1rem;
   display: flex;
   flex-direction: column;
@@ -233,17 +272,20 @@ body {
 }
 
 .back-button {
+  display: block;
+  width: fit-content;
   background: none;
   border: 1px solid rgba(255, 255, 255, 0.3);
   color: white;
-  padding: 0.5rem 1rem;
+  padding: 0.7rem 1.2rem;
   border-radius: 5px;
   cursor: pointer;
-  margin-bottom: 1.5rem;
+  margin-top: 2rem;
   font-size: 0.9rem;
   transition: background-color 0.3s;
-  align-items: right;
+  align-self: flex-start;
 }
+
 
 .back-button:hover {
   background-color: rgba(255, 255, 255, 0.1);
@@ -323,7 +365,6 @@ body {
   .content-card h2 {
     margin-top: 0;
     font-size: 20px;
-    display: block; /* Show title on mobile */
   }
 
   /* Hamburger to 'X' animation */

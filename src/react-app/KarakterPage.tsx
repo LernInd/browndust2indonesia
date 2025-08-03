@@ -2,6 +2,7 @@
 import { useState, useMemo } from 'react';
 import { karakterData, Karakter } from './karakter/index';
 import './KarakterPage.css';
+import { SocialLinks } from './SocialLinks'; // Komponen baru untuk social links
 
 const ITEMS_PER_PAGE = 3;
 
@@ -53,8 +54,28 @@ const KarakterDetail = ({ karakter, onBack }: { karakter: Karakter; onBack: () =
   return (
     <div className="content-card">
       <h2>{karakter.title}</h2>
+      
+      {karakter.author && <p className="author-name">Penulis: {karakter.author}</p>}
+      
+      {karakter.imageUrl && <img src={karakter.imageUrl} alt={karakter.title} className="content-image" />}
+      
       <p className="full-content">{karakter.fullContent}</p>
-        <button onClick={onBack} className="back-button">
+
+      {karakter.youtubeUrl && (
+        <div className="video-container">
+          <iframe
+            src={karakter.youtubeUrl}
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        </div>
+      )}
+
+      {karakter.socialLinks && <SocialLinks links={karakter.socialLinks} />}
+      
+      <button onClick={onBack} className="back-button">
         &larr; Kembali ke Daftar Karakter
       </button>
     </div>

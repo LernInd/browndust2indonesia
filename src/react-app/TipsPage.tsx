@@ -2,6 +2,7 @@
 import { useState, useMemo } from 'react';
 import { tipsData, Tip } from './tips/index'; // Pastikan path ini benar
 import './App.css';
+import { SocialLinks } from './SocialLinks'; // Komponen baru untuk social links
 
 const ITEMS_PER_PAGE = 3;
 
@@ -53,8 +54,28 @@ const TipDetail = ({ tip, onBack }: { tip: Tip; onBack: () => void; }) => {
   return (
     <div className="content-card">
       <h2>{tip.title}</h2>
+      
+      {tip.author && <p className="author-name">Penulis: {tip.author}</p>}
+      
+      {tip.imageUrl && <img src={tip.imageUrl} alt={tip.title} className="content-image" />}
+      
       <p className="full-content">{tip.fullContent}</p>
-        <button onClick={onBack} className="back-button">
+
+      {tip.youtubeUrl && (
+        <div className="video-container">
+          <iframe
+            src={tip.youtubeUrl}
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        </div>
+      )}
+
+      {tip.socialLinks && <SocialLinks links={tip.socialLinks} />}
+      
+      <button onClick={onBack} className="back-button">
         &larr; Kembali ke Daftar Tips
       </button>
     </div>

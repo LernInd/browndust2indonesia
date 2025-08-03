@@ -6,6 +6,15 @@ export interface Tip {
   title: string;
   shortDescription: string;
   fullContent: string;
+  author?: string;
+  imageUrl?: string;
+  youtubeUrl?: string;
+  socialLinks?: {
+    facebook?: string;
+    twitter?: string;
+    youtube?: string;
+    tiktok?: string;
+  };
 }
 
 // Impor semua tips individual

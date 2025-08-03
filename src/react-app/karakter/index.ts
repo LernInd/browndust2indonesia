@@ -6,6 +6,15 @@ export interface Karakter {
   title: string;
   shortDescription: string;
   fullContent: string;
+  author?: string;
+  imageUrl?: string;
+  youtubeUrl?: string;
+  socialLinks?: {
+    facebook?: string;
+    twitter?: string;
+    youtube?: string;
+    tiktok?: string;
+  };
 }
 
 // Impor semua karakter individual
