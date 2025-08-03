@@ -8,10 +8,11 @@ export const tip1: Tip = {
 
 Jangan lupa untuk meningkatkan level gear Anda menggunakan material yang didapat dari farm. Gear UR (Ultra Rare) adalah target utama, namun gear SR (Super Rare) yang ditingkatkan penuh bisa sangat berguna di awal hingga pertengahan permainan.`,
   author: "Admin A",
-  imageUrl: "https://res.cloudinary.com/dsbohucpg/image/upload/v1722718815/browndust2/gear-example.jpg",
+  imageUrl: "https://res.cloudinary.com/dsbohucpg/image/upload/v1754252014/Wallpaper_DJ_Venaka_PC2_3840x2160_eyzwt9.jpg",
   youtubeUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", // Contoh URL embed YouTube
   socialLinks: {
     facebook: "https://facebook.com/example",
-    twitter: "https://twitter.com/example"
+    twitter: "https://twitter.com/example",
+    youtube : "https://youtube.com/example"
   }
 };
