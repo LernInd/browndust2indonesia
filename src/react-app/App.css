@@ -1,10 +1,63 @@
-/* src/react-app/App.css */
+/* === GLOBAL & BODY STYLES === */
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  font-weight: 400;
+
+  color-scheme: dark;
+  color: rgba(255, 255, 255, 0.9);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+/* === TAMBAHKAN KODE SCROLLBAR DI SINI === */
+  scrollbar-width: thin; /* Untuk Firefox */
+  scrollbar-color: rgba(255, 255, 255, 0.4) transparent; /* Untuk Firefox */
+}
+
+/* === Style untuk Browser Berbasis WebKit (Chrome, Safari, Edge) === */
+::-webkit-scrollbar {
+  width: 5px; /* Lebar scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* Membuat track/jalur scrollbar tidak terlihat */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.4); /* Warna garis scrollbar */
+  border-radius: 10px; /* Membuat ujungnya membulat */
+  border: 3px solid transparent; /* Padding transparan agar terlihat lebih tipis */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.6); /* Warna saat kursor di atasnya */
+}
+
+
+/* === MAIN LAYOUT === */
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  width: 100%;
+  box-sizing: border-box;
+}
 
 .app {
   width: 100%;
 }
 
-/* Navbar */
+/* === NAVBAR === */
 .navbar {
   position: fixed;
   top: 0;
@@ -14,7 +67,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background-color: rgba(10, 10, 20, 0.4); /* Latar semi-transparan */
+  background-color: rgba(10, 10, 20, 0.4);
   backdrop-filter: blur(5px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   z-index: 1000;
@@ -65,19 +118,18 @@
   transition: all 0.3s ease-in-out;
 }
 
-/* Main Content */
+/* === MAIN CONTENT AREA === */
 .main-content {
-  padding-top: 100px; /* Memberi ruang di bawah navbar sticky */
-  display: flex; /* Menjadikan ini flex container */
-  justify-content: center; /* Menengahkan secara horizontal */
-  align-items: center; /* Menengahkan secara vertikal */
-  min-height: calc(100vh - 100px); /* Memastikan tinggi minimal untuk penengahan vertikal */
-  box-sizing: border-box; /* Menjaga padding tetap dalam perhitungan ukuran */
+  padding-top: 100px; /* Space below sticky navbar */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Align to the top */
+  min-height: calc(100vh - 100px);
+  box-sizing: border-box;
 }
 
 .content-card {
   background-color: rgba(0, 0, 0, 0.5);
-  /* border: 1px solid rgba(255, 254, 254, 0.1); */
   border-radius: 12px;
   backdrop-filter: blur(1px);
   padding: 2rem;
@@ -86,21 +138,147 @@
   text-align: center;
 }
 
-.content-card p {
-  text-align: justify;
-  font-size: 20px;
-}
-
 .content-card h2 {
   display: none;
 }
 
 .content-card p {
+  text-align: justify;
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* === TIPS PAGE STYLES === */
+.tips-container {
+  width: 100%;
+}
+
+.search-bar-container {
+  position: sticky;
+  top: 70px; /* Adjust with your navbar height */
+  z-index: 900;
+  padding: 1rem 0;
+  backdrop-filter: blur(5px);
+  margin-bottom: 1rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background-color: rgba(0, 0, 0, 0.3);
+  color: white;
+  box-sizing: border-box;
+  
+}
+
+.tips-content {
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tip-card {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tip-card:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+  transform: translateY(-5px);
+}
+
+.tip-card h3 {
+  margin-top: 0;
+  color: #fff;
+}
+
+.tip-card p {
   color: rgba(255, 255, 255, 0.7);
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
 
-/* Responsive Styles */
+.page-number {
+  background-color: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.page-number:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.page-number.active {
+  background-color: rgba(255, 255, 255, 0.3);
+  font-weight: bold;
+}
+
+.back-button {
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+  align-items: right;
+}
+
+.back-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.full-content {
+  text-align: justify;
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+
+/* === SOCIAL MEDIA LINKS === */
+.social-links {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.social-links a {
+  color: rgba(255, 255, 255, 0.8);
+  transition: color 0.3s, transform 0.3s;
+}
+
+.social-links a:hover {
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.sub-content {
+   padding-top: 1rem;
+  width: 100%;
+}
+
+/* === RESPONSIVE STYLES === */
 @media (max-width: 768px) {
   .navbar {
     justify-content: flex-end;
@@ -134,16 +312,21 @@
     display: flex;
   }
 
+  .content-card {
+    max-width: 100%; /* Full width on mobile */
+  }
+
   .content-card p {
     font-size: 14px;
   }
+  
   .content-card h2 {
-  margin-top: 0;
-  font-size: 20px;
-  display: flex;
+    margin-top: 0;
+    font-size: 20px;
+    display: block; /* Show title on mobile */
   }
 
-  /* Animasi Hamburger ke 'X' */
+  /* Hamburger to 'X' animation */
   .menu-icon.open .bar:nth-child(1) {
     transform: rotate(45deg) translate(5px, 5px);
   }
