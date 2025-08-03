@@ -3,7 +3,9 @@ import { useState, MouseEvent } from "react";
 import "./App.css";
 import HomePage from "./Home.tsx";
 import AboutPage from "./About.tsx";
-import TipsPage from "./TipsPage.tsx"; // Impor komponen Tips
+import TipsPage from "./TipsPage.tsx";
+import SpoilerPage from "./SpoilerPage.tsx"; // Impor komponen Spoiler
+import KarakterPage from "./KarakterPage.tsx"; // Impor komponen Karakter
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -32,8 +34,8 @@ function App() {
           <ul className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
             <li><a href="#" onClick={(e) => handleNavClick(e, 'beranda')}>Beranda</a></li>
             <li><a href="#" onClick={(e) => handleNavClick(e, 'tips')}>Tips</a></li>
-            <li><a href="#">Karakter</a></li>
-            <li><a href="#">Spoiler</a></li>
+            <li><a href="#" onClick={(e) => handleNavClick(e, 'karakter')}>Karakter</a></li>
+            <li><a href="#" onClick={(e) => handleNavClick(e, 'spoiler')}>Spoiler</a></li>
             <li><a href="#" onClick={(e) => handleNavClick(e, 'tentang')}>Tentang Kami</a></li>
           </ul>
         </nav>
@@ -42,6 +44,8 @@ function App() {
       <main className="main-content">
         {currentPage === 'beranda' && <HomePage />}
         {currentPage === 'tips' && <TipsPage />}
+        {currentPage === 'karakter' && <KarakterPage />}
+        {currentPage === 'spoiler' && <SpoilerPage />}
         {currentPage === 'tentang' && <AboutPage />}
       </main>
     </div>
