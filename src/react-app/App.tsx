@@ -1,6 +1,4 @@
-// src/App.tsx
-
-import { useState } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import cloudflareLogo from "./assets/Cloudflare_Logo.svg";
@@ -8,8 +6,52 @@ import honoLogo from "./assets/hono.svg";
 import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0);
-  const [name, setName] = useState("unknown");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      setSelectedFile(event.target.files[0]);
+      setUploadedImageUrl(null);
+      setError(null);
+    }
+  };
+
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault();
+    if (!selectedFile) {
+      setError("Silakan pilih file terlebih dahulu.");
+      return;
+    }
+
+    setUploading(true);
+    setError(null);
+
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+
+    try {
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Gagal mengunggah file.");
+      }
+
+      setUploadedImageUrl(data.url);
+    } catch (err: any) {
+      setError(err.message);
+      console.error("Upload failed:", err);
+    } finally {
+      setUploading(false);
+    }
+  };
 
   return (
     <>
@@ -21,7 +63,7 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
         <a href="https://hono.dev/" target="_blank">
-          <img src={honoLogo} className="logo cloudflare" alt="Hono logo" />
+          <img src={honoLogo} className="logo" alt="Hono logo" />
         </a>
         <a href="https://workers.cloudflare.com/" target="_blank">
           <img
@@ -31,34 +73,35 @@ function App() {
           />
         </a>
       </div>
-      <h1>Vite + React + Hono + Cloudflare</h1>
+      <h1>Cloudflare Workers + Cloudinary</h1>
       <div className="card">
-        <button
-          onClick={() => setCount((count) => count + 1)}
-          aria-label="increment"
-        >
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+        <h2>Unggah Gambar ke Cloudinary</h2>
+        <form onSubmit={handleSubmit}>
+          <input type="file" onChange={handleFileChange} accept="image/*" />
+          <button type="submit" disabled={!selectedFile || uploading}>
+            {uploading ? "Mengunggah..." : "Unggah"}
+          </button>
+        </form>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+        {uploadedImageUrl && (
+          <div style={{ marginTop: "20px" }}>
+            <h3>Gambar Berhasil Diunggah:</h3>
+            <img
+              src={uploadedImageUrl}
+              alt="Uploaded content"
+              style={{ maxWidth: "100%", height: "auto", borderRadius: "8px" }}
+            />
+            <p>
+              <a href={uploadedImageUrl} target="_blank" rel="noopener noreferrer">
+                Lihat gambar
+              </a>
+            </p>
+          </div>
+        )}
       </div>
-      <div className="card">
-        <button
-          onClick={() => {
-            fetch("/api/")
-              .then((res) => res.json() as Promise<{ name: string }>)
-              .then((data) => setName(data.name));
-          }}
-          aria-label="get name"
-        >
-          Name from API is: {name}
-        </button>
-        <p>
-          Edit <code>worker/index.ts</code> to change the name
-        </p>
-      </div>
-      <p className="read-the-docs">Click on the logos to learn more</p>
+      <p className="read-the-docs">
+        Proyek ini sekarang terhubung dengan Cloudinary melalui Cloudflare Workers.
+      </p>
     </>
   );
 }
