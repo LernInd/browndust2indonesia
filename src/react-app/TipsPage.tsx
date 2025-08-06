@@ -1,14 +1,14 @@
 // src/react-app/TipsPage.tsx
 import { useState, useMemo } from 'react';
-import { tipsData, Tip } from './tips/index'; // Pastikan path ini benar
+import { tipsData } from './tips/index';
+import type { Tip, TipContent } from './tips/index';
 import './App.css';
-import { SocialLinks } from './SocialLinks'; // Komponen baru untuk social links
+import { SocialLinks } from './SocialLinks';
 
 const ITEMS_PER_PAGE = 3;
 
 // Komponen untuk menampilkan daftar tips dan pagination
 const TipsList = ({ tips, onTipSelect, currentPage, setCurrentPage, totalPages }: any) => {
-  
   const renderPageNumbers = () => {
     const pageNumbers = [];
     for (let i = 1; i <= totalPages; i++) {
@@ -31,7 +31,10 @@ const TipsList = ({ tips, onTipSelect, currentPage, setCurrentPage, totalPages }
         tips.map((tip: Tip) => (
           <div key={tip.id} className="tip-card" onClick={() => onTipSelect(tip)}>
             <h3>{tip.title}</h3>
-            <p>{tip.shortDescription}</p>
+            {/* Preview: ambil text pertama dari contents */}
+            {tip.contents && tip.contents.find(c => c.type === 'text') && (
+              <p>{(tip.contents.find(c => c.type === 'text') as any).value.slice(0, 100)}...</p>
+            )}
           </div>
         ))
       ) : (
@@ -54,34 +57,42 @@ const TipDetail = ({ tip, onBack }: { tip: Tip; onBack: () => void; }) => {
   return (
     <div className="content-card">
       <h2>{tip.title}</h2>
-      
       {tip.author && <p className="author-name">Penulis: {tip.author}</p>}
-      
-      {tip.imageUrl && <img src={tip.imageUrl} alt={tip.title} className="content-image" />}
-      
-      <p className="full-content">{tip.fullContent}</p>
-
-      {tip.youtubeUrl && (
-        <div className="video-container">
-          <iframe
-            src={tip.youtubeUrl}
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
-        </div>
-      )}
-
+      {tip.contents && tip.contents.map((content: TipContent, idx: number) => {
+        if (content.type === 'text') {
+          return <p key={idx} className="full-content">{content.value}</p>;
+        }
+        if (content.type === 'image') {
+          return (
+            <div key={idx} className="image-block">
+              <img src={content.url} alt={content.caption || tip.title} className="content-image" />
+              {content.caption && <small>{content.caption}</small>}
+            </div>
+          );
+        }
+        if (content.type === 'video') {
+          return (
+            <div key={idx} className="video-container">
+              <iframe
+                src={content.url}
+                title={content.caption || 'YouTube video player'}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+              {content.caption && <small>{content.caption}</small>}
+            </div>
+          );
+        }
+        return null;
+      })}
       {tip.socialLinks && <SocialLinks links={tip.socialLinks} />}
-      
       <button onClick={onBack} className="back-button">
         &larr; Kembali ke Daftar Tips
       </button>
     </div>
   );
 };
-
 
 const TipsPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -91,7 +102,7 @@ const TipsPage = () => {
   const filteredTips = useMemo(() => {
     return tipsData.filter(tip =>
       tip.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      tip.shortDescription.toLowerCase().includes(searchQuery.toLowerCase())
+      (tip.contents && tip.contents.some(c => c.type === 'text' && c.value.toLowerCase().includes(searchQuery.toLowerCase())))
     );
   }, [searchQuery]);
 
@@ -103,7 +114,6 @@ const TipsPage = () => {
   
   return (
     <div className="tips-container">
-      {/* Search bar sekarang berada di luar logika kondisional */}
       {!selectedTip && (
         <div className="search-bar-container">
           <input
@@ -120,24 +130,23 @@ const TipsPage = () => {
       )}
 
       <div className="tips-content">
-        
         {selectedTip ? (
           <TipDetail tip={selectedTip} onBack={() => setSelectedTip(null)} />
         ) : (
           <div className='sub-content'>
-          <TipsList 
-            tips={paginatedTips}
-            onTipSelect={setSelectedTip}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            totalPages={totalPages}
-          />
+            <TipsList 
+              tips={paginatedTips}
+              onTipSelect={setSelectedTip}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              totalPages={totalPages}
+            />
           </div>
         )}
-        
       </div>
     </div>
   );
 };
 
 export default TipsPage;
+

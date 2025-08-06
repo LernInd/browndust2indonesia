@@ -1,28 +1,35 @@
 // src/react-app/tips/index.ts
 
-// Definisikan tipe datanya di sini
+export type TipContent =
+  | { type: 'text'; value: string }
+  | { type: 'image'; url: string; caption?: string }
+  | { type: 'video'; url: string; caption?: string };
+
 export interface Tip {
   id: number;
   title: string;
-  shortDescription: string;
-  fullContent: string;
+  contents: TipContent[];
   author?: string;
-  imageUrl?: string;
-  youtubeUrl?: string;
-  socialLinks?: {
-    facebook?: string;
-    twitter?: string;
-    youtube?: string;
-    tiktok?: string;
-  };
+  socialLinks?: { [key: string]: string };
 }
 
-// Impor semua tips individual
+export type SpoilerContent =
+  | { type: 'text'; value: string }
+  | { type: 'image'; url: string; caption?: string }
+  | { type: 'video'; url: string; caption?: string };
+
+export interface Spoiler {
+  id: number;
+  title: string;
+  contents: SpoilerContent[];
+  author?: string;
+  socialLinks?: { [key: string]: string };
+}
+
 import { tip1 } from './1';
 import { tip2 } from './2';
 // ...impor tips lainnya jika ada
 
-// Gabungkan semua tips ke dalam satu array
 export const tipsData: Tip[] = [
   tip1,
   tip2,

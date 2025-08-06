@@ -1,6 +1,7 @@
 // src/react-app/KarakterPage.tsx
 import { useState, useMemo } from 'react';
-import { karakterData, Karakter } from './karakter/index';
+import { karakterData } from './karakter/index';
+import type { Karakter, KarakterContent } from './karakter/index';
 import './KarakterPage.css';
 import { SocialLinks } from './SocialLinks'; // Komponen baru untuk social links
 
@@ -8,7 +9,6 @@ const ITEMS_PER_PAGE = 3;
 
 // Komponen untuk menampilkan daftar karakter dan pagination
 const KarakterList = ({ karakters, onKarakterSelect, currentPage, setCurrentPage, totalPages }: any) => {
-  
   const renderPageNumbers = () => {
     const pageNumbers = [];
     for (let i = 1; i <= totalPages; i++) {
@@ -31,7 +31,10 @@ const KarakterList = ({ karakters, onKarakterSelect, currentPage, setCurrentPage
         karakters.map((karakter: Karakter) => (
           <div key={karakter.id} className="karakter-card" onClick={() => onKarakterSelect(karakter)}>
             <h3>{karakter.title}</h3>
-            <p>{karakter.shortDescription}</p>
+            {/* Preview: ambil text pertama dari contents */}
+            {karakter.contents && karakter.contents.find(c => c.type === 'text') && (
+              <p>{(karakter.contents.find(c => c.type === 'text') as any).value.slice(0, 100)}...</p>
+            )}
           </div>
         ))
       ) : (
@@ -54,27 +57,36 @@ const KarakterDetail = ({ karakter, onBack }: { karakter: Karakter; onBack: () =
   return (
     <div className="content-card">
       <h2>{karakter.title}</h2>
-      
       {karakter.author && <p className="author-name">Penulis: {karakter.author}</p>}
-      
-      {karakter.imageUrl && <img src={karakter.imageUrl} alt={karakter.title} className="content-image" />}
-      
-      <p className="full-content">{karakter.fullContent}</p>
-
-      {karakter.youtubeUrl && (
-        <div className="video-container">
-          <iframe
-            src={karakter.youtubeUrl}
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
-        </div>
-      )}
-
+      {karakter.contents && karakter.contents.map((content: KarakterContent, idx: number) => {
+        if (content.type === 'text') {
+          return <p key={idx} className="full-content">{content.value}</p>;
+        }
+        if (content.type === 'image') {
+          return (
+            <div key={idx} className="image-block">
+              <img src={content.url} alt={content.caption || karakter.title} className="content-image" />
+              {content.caption && <small>{content.caption}</small>}
+            </div>
+          );
+        }
+        if (content.type === 'video') {
+          return (
+            <div key={idx} className="video-container">
+              <iframe
+                src={content.url}
+                title={content.caption || 'YouTube video player'}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+              {content.caption && <small>{content.caption}</small>}
+            </div>
+          );
+        }
+        return null;
+      })}
       {karakter.socialLinks && <SocialLinks links={karakter.socialLinks} />}
-      
       <button onClick={onBack} className="back-button">
         &larr; Kembali ke Daftar Karakter
       </button>
@@ -91,7 +103,7 @@ const KarakterPage = () => {
   const filteredKarakters = useMemo(() => {
     return karakterData.filter(karakter =>
       karakter.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      karakter.shortDescription.toLowerCase().includes(searchQuery.toLowerCase())
+      (karakter.contents && karakter.contents.some(c => c.type === 'text' && c.value.toLowerCase().includes(searchQuery.toLowerCase())))
     );
   }, [searchQuery]);
 

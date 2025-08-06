@@ -1,6 +1,7 @@
 // src/react-app/SpoilerPage.tsx
 import { useState, useMemo } from 'react';
-import { spoilerData, Spoiler } from './spoiler/index'; 
+import { spoilerData } from './spoiler/index';
+import type { Spoiler, SpoilerContent } from './spoiler/index';
 import './SpoilerPage.css';
 import { SocialLinks } from './SocialLinks'; // Komponen baru untuk social links
 
@@ -31,7 +32,10 @@ const SpoilerList = ({ spoilers, onSpoilerSelect, currentPage, setCurrentPage, t
         spoilers.map((spoiler: Spoiler) => (
           <div key={spoiler.id} className="spoiler-card" onClick={() => onSpoilerSelect(spoiler)}>
             <h3>{spoiler.title}</h3>
-            <p>{spoiler.shortDescription}</p>
+            {/* Jika ingin menampilkan preview, ambil dari contents tipe text */}
+            {spoiler.contents && spoiler.contents.find(c => c.type === 'text') && (
+              <p>{(spoiler.contents.find(c => c.type === 'text') as any).value.slice(0, 100)}...</p>
+            )}
           </div>
         ))
       ) : (
@@ -54,27 +58,36 @@ const SpoilerDetail = ({ spoiler, onBack }: { spoiler: Spoiler; onBack: () => vo
   return (
     <div className="content-card">
       <h2>{spoiler.title}</h2>
-      
       {spoiler.author && <p className="author-name">Penulis: {spoiler.author}</p>}
-      
-      {spoiler.imageUrl && <img src={spoiler.imageUrl} alt={spoiler.title} className="content-image" />}
-      
-      <p className="full-content">{spoiler.fullContent}</p>
-
-      {spoiler.youtubeUrl && (
-        <div className="video-container">
-          <iframe
-            src={spoiler.youtubeUrl}
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
-        </div>
-      )}
-
+      {spoiler.contents && spoiler.contents.map((content: SpoilerContent, idx: number) => {
+        if (content.type === 'text') {
+          return <p key={idx} className="full-content">{content.value}</p>;
+        }
+        if (content.type === 'image') {
+          return (
+            <div key={idx} className="image-block">
+              <img src={content.url} alt={content.caption || spoiler.title} className="content-image" />
+              {content.caption && <small>{content.caption}</small>}
+            </div>
+          );
+        }
+        if (content.type === 'video') {
+          return (
+            <div key={idx} className="video-container">
+              <iframe
+                src={content.url}
+                title={content.caption || 'YouTube video player'}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+              {content.caption && <small>{content.caption}</small>}
+            </div>
+          );
+        }
+        return null;
+      })}
       {spoiler.socialLinks && <SocialLinks links={spoiler.socialLinks} />}
-      
       <button onClick={onBack} className="back-button">
         &larr; Kembali ke Daftar Spoiler
       </button>
@@ -90,8 +103,7 @@ const SpoilerPage = () => {
 
   const filteredSpoilers = useMemo(() => {
     return spoilerData.filter(spoiler =>
-      spoiler.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      spoiler.shortDescription.toLowerCase().includes(searchQuery.toLowerCase())
+      spoiler.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }, [searchQuery]);
 

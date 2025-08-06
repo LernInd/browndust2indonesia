@@ -1,20 +1,17 @@
 // src/react-app/spoiler/index.ts
 
 // Definisikan tipe datanya di sini
+export type SpoilerContent =
+  | { type: 'text'; value: string }
+  | { type: 'image'; url: string; caption?: string }
+  | { type: 'video'; url: string; caption?: string };
+
 export interface Spoiler {
   id: number;
   title: string;
-  shortDescription: string;
-  fullContent: string;
+  contents: SpoilerContent[];
   author?: string;
-  imageUrl?: string;
-  youtubeUrl?: string;
-  socialLinks?: {
-    facebook?: string;
-    twitter?: string;
-    youtube?: string;
-    tiktok?: string;
-  };
+  socialLinks?: { [key: string]: string };
 }
 
 // Impor semua spoiler individual

@@ -1,14 +1,16 @@
 // src/react-app/karakter/index.ts
 
 // Definisikan tipe datanya di sini
+export type KarakterContent =
+  | { type: 'text'; value: string }
+  | { type: 'image'; url: string; caption?: string }
+  | { type: 'video'; url: string; caption?: string };
+
 export interface Karakter {
   id: number;
   title: string;
-  shortDescription: string;
-  fullContent: string;
+  contents: KarakterContent[];
   author?: string;
-  imageUrl?: string;
-  youtubeUrl?: string;
   socialLinks?: {
     facebook?: string;
     twitter?: string;
